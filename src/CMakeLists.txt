@@ -22,3 +22,4 @@ add_custom_command(TARGET gdf POST_BUILD
         ${CMAKE_SOURCE_DIR}/compile_commands.json
     COMMENT "Add clangd to the src directory")
 
+install(TARGETS gdf DESTINATION bin)

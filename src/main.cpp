@@ -1,4 +1,5 @@
 #include <argparse/argparse.hpp>
+#include <cstddef>
 #include <cstdlib>
 #include <ctime>
 #include <filesystem>
@@ -20,19 +21,26 @@
 #define PROGRAM_NAME "gdf"
 #define STRINGIFY(x) #x
 
-char *tmp_folder;
-char *absolute_src;
+char *tmp_folder = NULL;
+char *absolute_src = NULL;
 git_repository *new_repo = NULL;
 
 void cleanup() {
-  try {
-    std::filesystem::remove_all(tmp_folder);
-  } catch (const std::exception &err) {
-    printf("%s: %s\n", PROGRAM_NAME, err.what());
+  if (tmp_folder != NULL) {
+    try {
+      std::filesystem::remove_all(tmp_folder);
+    } catch (const std::exception &err) {
+      printf("%s: %s\n", PROGRAM_NAME, err.what());
+    }
+
+    free(tmp_folder);
   }
-  free(tmp_folder);
-  free(absolute_src);
-  git_repository_free(new_repo);
+  if (absolute_src != NULL) {
+    free(absolute_src);
+  }
+  if (new_repo != NULL) {
+    git_repository_free(new_repo);
+  }
   git_libgit2_shutdown();
 }
 
