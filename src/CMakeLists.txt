@@ -1,3 +1,5 @@
+# https://jonathanhamberg.com/post/cmake-embedding-git-hash/
+
 add_executable(gdf
  main.cpp 
 )
@@ -13,16 +15,6 @@ include_directories(/usr/include)
 link_directories(/usr/lib)
 
 target_link_libraries(gdf argparse git2)
-
-# https://jonathanhamberg.com/post/cmake-embedding-git-hash/
-execute_process(
-	COMMAND git rev-parse --short HEAD
-	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-	OUTPUT_VARIABLE GIT_HASH
-	OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-add_definitions(gdf -DGIT_HASH="${GIT_HASH}")
 
 add_custom_command(TARGET gdf POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy

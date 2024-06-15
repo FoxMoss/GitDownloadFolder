@@ -58,11 +58,11 @@ void unwrap_exit(int exit_value, const char *exit_str,
 
 int main(int argc, char *argv[]) {
   srand(time(NULL));
-  argparse::ArgumentParser arg_parser(PROGRAM_NAME, "Hash " GIT_HASH);
+  argparse::ArgumentParser arg_parser(PROGRAM_NAME, "",
+                                      argparse::default_arguments::help);
 
-  arg_parser.add_description(
-      "GitDownloadFolder, something that should be builtin to git.\n\n"
-      "Build of hash " GIT_HASH);
+  arg_parser.add_description("GitDownloadFolder, extracts a folder from a git "
+                             "repo, a feature that should be builtin to git.");
 
   arg_parser.add_argument("url").required().help(
       "The git repo you want to download the folder from.");
